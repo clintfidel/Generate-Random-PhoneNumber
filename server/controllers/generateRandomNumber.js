@@ -32,33 +32,6 @@ class PhoneNumberGenerator {
     }
   }
 
-  static async getPhoneNumbers(req, res, next) {
-    try {
-      const { size } = req.query;
-      const totalNumbersGotten = allNumbers.length;
-      if (!totalNumbersGotten) {
-        return res.status(404).json({
-          message: 'numbers not found'
-        });
-      }
-      if (size) {
-        const numbersGotten = allNumbers.splice(0, size);
-        return res.status(200).json({
-          message: 'All numbers gotten',
-          Numbers: numbersGotten,
-          totalNumbersGotten: numbersGotten.length
-        });
-      }
-      return res.status(200).json({
-        message: 'All numbers gotten',
-        allNumbers,
-        totalNumbersGotten
-      });
-    } catch (error) {
-      return next(error);
-    }
-  }
-
   static async sortNumbers(req, res, next) {
     try {
       const { order } = req.query;
@@ -76,6 +49,36 @@ class PhoneNumberGenerator {
       return res.status(200).json({
         message: 'All number successfully sorted',
         sortedNumber: sort
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async getPhoneNumbers(req, res, next) {
+    try {
+      const { size, order } = req.query;
+      const totalNumbersGotten = allNumbers.length;
+      if (!totalNumbersGotten) {
+        return res.status(404).json({
+          message: 'numbers not found'
+        });
+      }
+      if (size) {
+        const numbersGotten = allNumbers.splice(0, size);
+        return res.status(200).json({
+          message: 'All numbers gotten',
+          Numbers: numbersGotten,
+          totalNumbersGotten: numbersGotten.length
+        });
+      }
+      if (order) {
+        return PhoneNumberGenerator.sortNumbers(req, res, next);
+      }
+      return res.status(200).json({
+        message: 'All numbers gotten',
+        allNumbers,
+        totalNumbersGotten
       });
     } catch (error) {
       return next(error);
