@@ -3,6 +3,7 @@ import fs from 'fs';
 import {
   getRandomPhoneNumber,
   savePhoneNumberToFile,
+  sortNumberInAscAndDesc
 } from '../helpers/utils';
 
 const filePath = 'server/phoneData/phoneNumbers';
@@ -52,6 +53,31 @@ class PhoneNumberGenerator {
         message: 'All numbers gotten',
         allNumbers,
         totalNumbersGotten
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async sortNumbers(req, res, next) {
+    try {
+      const { order } = req.query;
+      const phoneNumbers = fs.readFileSync(`${filePath}.txt`, 'utf8');
+      const allNumbers = !phoneNumbers ? [] : phoneNumbers.split(',');
+      const totalNumbersGotten = allNumbers.length;
+
+      const sort = await sortNumberInAscAndDesc(allNumbers, order);
+
+      if (!order) {
+        return res.status(200).json({
+          message: 'All numbers gotten',
+          allNumbers,
+          totalNumbersGotten
+        });
+      }
+      return res.status(200).json({
+        message: 'All number successfully sorted',
+        sortedNumber: sort
       });
     } catch (error) {
       return next(error);

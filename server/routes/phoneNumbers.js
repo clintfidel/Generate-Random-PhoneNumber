@@ -1,7 +1,11 @@
 import express from 'express';
 import phoneNumber from '../controllers/generateRandomNumber';
 
-const { generateRandomPhoneNumber, getPhoneNumbers } = phoneNumber;
+const {
+  generateRandomPhoneNumber,
+  getPhoneNumbers,
+  sortNumbers
+} = phoneNumber;
 
 const apiPrefix = '/numbers';
 
@@ -10,5 +14,7 @@ phoneNumbersRouter
   .route(`${apiPrefix}/generate`).get(generateRandomPhoneNumber);
 phoneNumbersRouter
   .route(`${apiPrefix}`).get(getPhoneNumbers);
+phoneNumbersRouter
+  .route(`${apiPrefix}/sort`).get(sortNumbers);
 
 export default phoneNumbersRouter;
