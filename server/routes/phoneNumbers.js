@@ -4,7 +4,8 @@ import phoneNumber from '../controllers/generateRandomNumber';
 const {
   generateRandomPhoneNumber,
   getPhoneNumbers,
-  sortNumbers
+  sortNumbers,
+  getMinAndMaxNumber
 } = phoneNumber;
 
 const apiPrefix = '/numbers';
@@ -16,5 +17,7 @@ phoneNumbersRouter
   .route(`${apiPrefix}`).get(getPhoneNumbers);
 phoneNumbersRouter
   .route(`${apiPrefix}/sort`).get(sortNumbers);
+phoneNumbersRouter
+  .route(`${apiPrefix}/min-and-max`).get(getMinAndMaxNumber);
 
 export default phoneNumbersRouter;
