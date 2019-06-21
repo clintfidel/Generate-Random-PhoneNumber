@@ -19,8 +19,6 @@ app.get('/api/v1', (_, res) => {
   });
 });
 
-
-
 app.listen(PORT, () => {
   winston.info(`app is running on port ${PORT}`);
 });
